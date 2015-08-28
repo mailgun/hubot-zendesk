@@ -1,6 +1,6 @@
 # hubot-zendesk
 
-Queries Zendesk for information about support tickets
+Queries Zendesk for information about support tickets. This zendesk hubot integration requires slack as the adapter.
 
 See [`src/zendesk.coffee`](src/zendesk.coffee) for full documentation.
 

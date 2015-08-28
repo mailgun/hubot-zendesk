@@ -122,10 +122,15 @@ module.exports = (robot) ->
       if result.error
         msg.send result.description
         return
-      message = "#{tickets_url}/#{result.ticket.id} ##{result.ticket.id} (#{result.ticket.status.toUpperCase()})"
-      message += "\n>Updated: #{result.ticket.updated_at}"
-      message += "\n>Added: #{result.ticket.created_at}"
-      message += "\n>Description:"
-      message += "\n>-------"
-      message += "\n>#{result.ticket.description}"
-      msg.send message
+
+      # add color support to ticket statuses
+      content =
+        title: "#{result.ticket.id}: #{result.ticket.subject} (#{result.ticket.status.toUpperCase()})"
+        title_link: "#{tickets_url}/#{result.ticket.id}"
+        fallback: "#{result.ticket.id}: #{result.ticket.subject}\n#{tickets_url}/#{result.ticket.id}\n#{result.ticket.description}"
+        color: "#cccccc"
+        text: "Updated: #{result.ticket.updated_at}\nAdded: #{result.ticket.created_at}\n\n#{result.ticket.description}"
+
+      robot.emit "slack-attachment",
+        channel: msg.message.room
+        content: content
